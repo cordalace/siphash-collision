@@ -12,11 +12,11 @@ def scan_for_duplicates(filename):
         header = next(reader)
         assert header == ['data', 'hash'], header
         seen_hashes = set()
-        for row in reader:
+        for i, row in enumerate(reader):
             try:
                 hash_ = int(row[1])
             except (IndexError, ValueError):
-                raise RuntimeError('Bad line in file %s' % filename)
+                raise RuntimeError('Bad line %s in file %s' % (i + 2, filename))
             if hash_ in seen_hashes:
                 raise RuntimeError('Hash %s duplicate in file %s' % (hash_, filename))
             seen_hashes.add(hash_)
